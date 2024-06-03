@@ -1,5 +1,6 @@
 class Product < ApplicationRecord
   belongs_to :category
   has_many :line_items
+  has_many :ratings
   has_many :orders, through: :line_items
 end
