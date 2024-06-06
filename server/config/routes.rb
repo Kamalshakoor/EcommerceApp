@@ -4,6 +4,7 @@ Rails.application.routes.draw do
         post 'register', to: 'auth#register'
         post 'login', to: 'auth#login'
         delete 'logout', to: 'auth#logout'
+        resources :categories
     end
   end
 end
