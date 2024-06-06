@@ -5,6 +5,7 @@ Rails.application.routes.draw do
         post 'login', to: 'auth#login'
         delete 'logout', to: 'auth#logout'
         resources :categories
+        resources :products
     end
   end
 end
