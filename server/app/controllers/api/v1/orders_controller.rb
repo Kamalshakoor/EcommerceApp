@@ -42,9 +42,9 @@ class Api::V1::OrdersController < ApplicationController
     # Only allow destruction of orders that are pending
     if @order.pending?
       @order.destroy
-      render json: { message: 'Order deleted' }
+      render json: { message: 'Order Cancelled' }
     else
-      render json: { error: "Order cannot be deleted as it is already in progress or completed." }, status: :unprocessable_entity
+      render json: { error: "Order cannot be Cancelled as it is already in progress or completed." }, status: :unprocessable_entity
     end
   end
 
