@@ -1,0 +1,15 @@
+  <div class="order-confirmation">
+    <h1>Order Confirmation</h1>
+    <p>Thank you for your order!</p>
+    <p>Order number: <%= @order.id %></p>
+    <p>Order total: <%= @order.price %></p>
+    <p>Order date: <%= @order.created_at %></p>
+     <h3>Order Items: </h3>
+    <ul>
+      <% @order.line_items.each do |line_item| %>
+        <li>
+          <%= line_item.quantity %> x <%= line_item.product.name %> - $<%= line_item.product.price %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
