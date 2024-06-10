@@ -19,6 +19,7 @@ class Api::V1::OrdersController < ApplicationController
       order_price = current_user.line_items.joins(:product).where(order_id: order.id).sum('line_items.quantity * products.price')
       order.price = order_price
       order.save!
+      OrderPlacedJob.perform_async(order.id)
       render json: OrderSerializer.new(order).serializable_hash.to_json, status: :created
     rescue ActiveRecord::RecordInvalid => e
       render json: e.record.errors, status: :unprocessable_entity
