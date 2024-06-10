@@ -15,15 +15,15 @@ class Api::V1::OrdersController < ApplicationController
   def create
     ActiveRecord::Base.transaction do
       order = current_user.orders.create!(order_params)
-      current_user.line_items.where(order_id: nil).update_all(order_id: order.id)
-      order_price = current_user.line_items.joins(:product).where(order_id: order.id).sum('line_items.quantity * products.price')
-      order.price = order_price
-      order.save!
+      current_user.line_items.where(order_id: nil).update_all(order_id: order.id) # Update order_id of line items
+      order.update(price: order.calculate_total_price) # Set the order price
+      OrderMailer.order_placed(order).deliver_now
       render json: OrderSerializer.new(order).serializable_hash.to_json, status: :created
     rescue ActiveRecord::RecordInvalid => e
       render json: e.record.errors, status: :unprocessable_entity
     end
   end
+  
 
   def update
     # Allow updates only if the order is pending
@@ -48,7 +48,6 @@ class Api::V1::OrdersController < ApplicationController
     end
   end
 
-
   private
 
   def set_order
@@ -59,5 +58,3 @@ class Api::V1::OrdersController < ApplicationController
     params.require(:order).permit(:address, :status)
   end
 end
-
-
