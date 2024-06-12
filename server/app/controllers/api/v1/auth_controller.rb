@@ -4,7 +4,6 @@ class Api::V1::AuthController < ApplicationController
   def register
     user = User.new(user_params)
     if user.save
-      session[:user_id] = user.id
       render json: UserSerializer.new(user).serializable_hash.to_json, status: :created
     else
       render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
