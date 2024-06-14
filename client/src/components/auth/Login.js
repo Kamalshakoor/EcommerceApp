@@ -1,20 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const Login = () => {
+const Login = ({setIsAuthenticated}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const effectRan = useRef(false); //to make sure useEffect only runs once 
 
   useEffect(() => {
+    if (effectRan.current === false) {
     if (localStorage.getItem('token')) {
       toast.success('You are Already Logged In!');
       navigate('/');
     }
-  }, [navigate]);
+    effectRan.current = true;
+    }
 
+  }, [navigate]);
+  
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -23,8 +28,8 @@ const Login = () => {
         email,
         password
       });
-
       localStorage.setItem('token', data.token);
+      setIsAuthenticated(true);
       toast.success('Login successful');
       navigate('/');
     } catch (error) {
