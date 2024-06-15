@@ -19,6 +19,12 @@ const Navbar = ({isAuthenticated, handleLogout}) => {
                     <li className="nav-item">
                         <Link className="nav-link" to={"/shop"}> <i className='fa fa-shopping-bag'></i> Shop</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to={"/about"}> <i className='fa fa-info-circle'></i> About</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to={"/contact"}> <i className='fa fa-phone'></i> Contact</Link>
+                    </li>
                 </ul>
                 <ul className="navbar-nav ms-auto">
                     <li className="nav-item">
