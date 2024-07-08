@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import Navbar from './components/Navbar/Navbar';
+import Shop from './components/Shop/Shop';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Footer from './components/footer/Footer';
@@ -44,6 +45,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path='/shop' element={<Shop />} />
         </Routes>
         <Footer />
       </Router>

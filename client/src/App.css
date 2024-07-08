@@ -1,3 +1,38 @@
+.main{
+  min-height:85vh;
+  background: linear-gradient(#e4a974, #d6d6d6);
+
+  /* position: relative; */
+  /* top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; */
+
+  /* height: 100vh; */
+
+}
+.uppertext{
+  background: linear-gradient(to right, #af95e1, #6d6b58); /* Gradient colors */
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.search-input{
+  height: 2.5rem;
+}
+.search-input:focus{
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.searchfield{
+  width: 98%;
+}
+
+.search-btn{
+  border-radius: 0 0.25rem 0.25rem 0;
+  height: 2.5rem; 
+}
+
 .footer {
   position: fixed;
   bottom: 0;
