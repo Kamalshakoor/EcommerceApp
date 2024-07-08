@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
-import { Circles } from 'react-loader-spinner'
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import { Circles } from 'react-loader-spinner';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -14,7 +14,7 @@ const Shop = () => {
       try {
         const response = await axios.get(`http://localhost:3000/api/v1/products`);
         setProducts(response.data.data);
-        setDisplayedProducts(response.data.data);
+        setDisplayedProducts(response.data.data.slice(0, 10)); // Display initial 10 products
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -25,28 +25,38 @@ const Shop = () => {
 
   const handleScroll = () => {
     if (isScrolling.current) return;
-    isScrolling.current = true;
     if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 10) {
-      setPage(page + 1);
-      setDisplayedProducts((prevProducts) => {
-        const start = prevProducts.length + 1;
-        const end = start + Math.min(10, products.length - prevProducts.length);
-        const newProducts = products.slice(start, end);
-        return [...prevProducts, ...newProducts];
-      });
+      isScrolling.current = true;
+      setPage(prevPage => prevPage + 1);
     }
-    window.setTimeout(() => {
-      isScrolling.current = false;
-    }, 200);
   };
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
-    }
-  }, [products, page])
+    };
+  }, []);
 
+  useEffect(() => {
+    if (page > 1) {
+      const start = (page - 1) * 10;
+      const end = start + 10;
+      setDisplayedProducts(prevProducts => [
+        ...prevProducts,
+        ...products.slice(start, end)
+      ]);
+      isScrolling.current = false;
+    }
+  }, [page, products]);
+  
+
+  const truncate = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + '...';
+    }
+    return text;
+  };
 
   return (
     <>
@@ -65,12 +75,12 @@ const Shop = () => {
                     className="card-img-top"
                     alt={product.name}
                     onError={e => {
-                      e.target.src = 'https://via.placeholder.com/150'
+                      e.target.src = 'https://via.placeholder.com/150';
                     }}
                   />
                   <div className="card-body">
                     <h5 className="card-title">{product.attributes.name}</h5>
-                    <p className="card-text">{product.attributes.description}</p>
+                    <p className="card-text">{truncate(product.attributes.description, 60)}</p>
                     <p className="card-text">{product.attributes.price}</p>
                     <button className="btn btn-primary">Add to Cart</button>
                   </div>
@@ -81,8 +91,7 @@ const Shop = () => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Shop
-
+export default Shop;
