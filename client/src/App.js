@@ -7,10 +7,11 @@ import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import Navbar from './components/Navbar/Navbar';
 import Shop from './components/Shop/Shop';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import Footer from './components/footer/Footer';
 import Detail from './components/Shop/Detail';
+import Cart from './components/Cart/Cart';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -39,6 +40,7 @@ function App() {
           <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
           <Route path='/shop' element={<Shop />} />
           <Route path='/products/:id' element={<Detail isAuthenticated={isAuthenticated} />} />
+          <Route path='/cart' element={<Cart isAuthenticated={isAuthenticated} />} />
         </Routes>
         <Footer />
       </Router>
