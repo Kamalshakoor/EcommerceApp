@@ -3,23 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const Login = ({setIsAuthenticated}) => {
+const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const effectRan = useRef(false); //to make sure useEffect only runs once 
+  const effectRan = useRef(false); // Ensure useEffect runs only once
 
-  useEffect(() => {
-    if (effectRan.current === false) {
-    if (localStorage.getItem('token')) {
-      toast.success('You are Already Logged In!');
-      navigate('/');
-    }
-    effectRan.current = true;
-    }
+ 
 
-  }, [navigate]);
-  
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -27,21 +18,19 @@ const Login = ({setIsAuthenticated}) => {
       const { data } = await axios.post('http://localhost:3000/api/v1/login', {
         email,
         password
-      });
-      localStorage.setItem('token', data.token);
-      setIsAuthenticated(true);
+      },
+      { withCredentials: true } //this compulsory for session persistance accross frontend and backend
+    );
+      // console.log('Login response data:', data);
+      
+      setIsAuthenticated(true); 
       toast.success('Login successful');
-      navigate('/');
+      navigate('/'); 
     } catch (error) {
       console.error('Login error:', error);
       toast.error('Login failed. Please check your credentials');
     }
   };
-
-  // const handleLogout = () => {
-  //   localStorage.removeItem('token');
-  //   navigate('/login'); 
-  // };
 
   return (
     <div className="container my-5">
@@ -78,7 +67,6 @@ const Login = ({setIsAuthenticated}) => {
                 </div>
                 <button type="submit" className="btn btn-success">Submit</button>
               </form>
-              {/* <button className="btn btn-danger mt-3" onClick={handleLogout}>Logout</button> */}
             </div>
           </div>
         </div>
