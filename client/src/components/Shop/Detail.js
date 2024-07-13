@@ -79,7 +79,8 @@ const Detail = ( { isAuthenticated } ) => {
                   <p className="card-text">{product.attributes.description}</p>
                   <p className="card-text">Price: {product.attributes.price}</p>
                   <p className="card-text">Category: {category ? category.attributes.name : ''}</p> <hr />
-                  <button className="btn btn-outline-info w-100" onClick={handleAddToCart}>Add to Cart</button>
+                  <button className="btn btn-outline-info w-100" 
+                  onClick={handleAddToCart}>Add to Cart</button>
                 </div>
               </div>
             </div>

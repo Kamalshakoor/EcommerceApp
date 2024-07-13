@@ -6,7 +6,7 @@ Rails.application.routes.draw do
         delete 'logout', to: 'auth#logout'
         resources :categories
         resources :products
-        resources :line_items, only: [:create, :destroy] do
+        resources :line_items, only: [:index, :create, :destroy] do
           member do
             patch :increment
             patch :decrement

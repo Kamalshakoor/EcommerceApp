@@ -3,6 +3,10 @@ class Api::V1::LineItemsController < ApplicationController
   # skip_before_action :verify_authenticity_token
   before_action :set_line_item, only: [:increment, :decrement, :destroy]
 
+  def index
+    @line_items = current_user.line_items.where(order_id: nil).includes(:product)
+    render json: LineItemSerializer.new(@line_items).serializable_hash.to_json
+  end
   def create
     product = Product.find(params[:product_id])
     @line_item = current_user.line_items.find_or_initialize_by(product: product, order_id: nil)
