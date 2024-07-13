@@ -1,6 +1,6 @@
 class Api::V1::LineItemsController < ApplicationController
-  skip_before_action :verify_authenticity_token
   include AuthenticateUsers
+  # skip_before_action :verify_authenticity_token
   before_action :set_line_item, only: [:increment, :decrement, :destroy]
 
   def create

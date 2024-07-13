@@ -10,23 +10,15 @@ import Shop from './components/Shop/Shop';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Footer from './components/footer/Footer';
+import Detail from './components/Shop/Detail';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, []);
-
   const handleLogout = async (navigate) => {
     try {
-      console.log('handleLogout called');
+      // console.log('handleLogout called');
       await axios.delete('http://localhost:3000/api/v1/logout', { withCredentials: true });
-      localStorage.removeItem('token');
       setIsAuthenticated(false);
       toast.success('Logout successful');
       navigate('/login');
@@ -46,6 +38,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
           <Route path='/shop' element={<Shop />} />
+          <Route path='/products/:id' element={<Detail isAuthenticated={isAuthenticated} />} />
         </Routes>
         <Footer />
       </Router>

@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Circles } from 'react-loader-spinner';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -8,6 +11,7 @@ const Shop = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const isScrolling = useRef(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -78,11 +82,16 @@ const Shop = () => {
                       e.target.src = 'https://via.placeholder.com/150';
                     }}
                   />
-                  <div className="card-body">
-                    <h5 className="card-title">{product.attributes.name}</h5>
+                  <div className="card-body d-flex flex-column">
+                    <div className="d-flex justify-content-between">
+                      <h5 className="card-title">{product.attributes.name}</h5>
+                      <p className="card-text">{product.attributes.price}</p>
+                    </div>
                     <p className="card-text">{truncate(product.attributes.description, 60)}</p>
-                    <p className="card-text">{product.attributes.price}</p>
-                    <button className="btn btn-primary">Add to Cart</button>
+                    <div className="d-flex justify-content-between">
+                      <p className="card-text">Rating : {product.attributes.rating}</p>
+                      <button className="btn btn-outline-warning" onClick={() => navigate(`/products/${product.id}`)}>Show Details</button>
+                    </div>
                   </div>
                 </div>
               </div>

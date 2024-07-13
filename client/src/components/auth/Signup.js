@@ -13,13 +13,6 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      toast.success('You are Already Logged In!');
-      navigate('/');
-    }
-  }, [navigate]);
-
   const handleSignup = async (e) => {
     e.preventDefault();
 

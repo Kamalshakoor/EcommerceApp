@@ -1,6 +1,6 @@
 class Api::V1::ProductsController < ApplicationController
   include AuthenticateUsers
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
   skip_before_action :authenticate_user, only: [:index, :show]
   before_action :authenticate_admin, only: [:create, :update, :destroy]
   before_action :set_product, only: [:show, :update, :destroy]

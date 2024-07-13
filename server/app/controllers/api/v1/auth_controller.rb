@@ -1,6 +1,4 @@
 class Api::V1::AuthController < ApplicationController
-  skip_before_action :verify_authenticity_token
-
   def register
     user = User.new(user_params)
     if user.save
@@ -14,12 +12,14 @@ class Api::V1::AuthController < ApplicationController
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
+      # Rails.logger.debug "Session user_id: #{session[:user_id]}" if session[:user_id]
       render json: UserSerializer.new(user).serializable_hash.to_json
     else
       render json: { errors: ['Invalid email or password'] }, status: :unauthorized
     end
   end
 
+  
 
   def logout
     reset_session
