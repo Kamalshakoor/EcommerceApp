@@ -21,8 +21,8 @@ module AuthenticateUsers
 
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
-    Rails.logger.debug "Current user: #{@current_user}" if @current_user
-    @current_user
+    # Rails.logger.debug "Current user: #{@current_user}" if @current_user
+    # @current_user
   end
 
  end
