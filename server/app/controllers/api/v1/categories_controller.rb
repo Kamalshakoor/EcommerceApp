@@ -1,5 +1,5 @@
 class Api::V1::CategoriesController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
   # before_action :authenticate_user!, only: [:create, :update, :destroy]
   before_action :set_category, only: [:show, :update, :destroy]
   def index

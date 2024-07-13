@@ -1,5 +1,5 @@
 class Api::V1::OrdersController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
   include AuthenticateUsers
   before_action :set_order, only: [:show, :update]
 

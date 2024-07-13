@@ -8,6 +8,7 @@ module AuthenticateUsers
 
   def authenticate_user
     unless current_user
+      # Rails.logger.debug "User is not authenticated"
       render json: { errors: ['You need to be logged in to perform this action'] }, status: :unauthorized
     end
   end
@@ -20,6 +21,8 @@ module AuthenticateUsers
 
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    Rails.logger.debug "Current user: #{@current_user}" if @current_user
+    @current_user
   end
 
  end
