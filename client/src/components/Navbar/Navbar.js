@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Navbar = ({isAuthenticated, handleLogout}) => {
@@ -38,6 +38,9 @@ const Navbar = ({isAuthenticated, handleLogout}) => {
                             {isAuthenticated ?
                                 <>
                                     <li><Link className="dropdown-item" to={"/profile"}> <i className='fa fa-user'></i> My Profile</Link></li>
+                                    <li><Link className="dropdown-item" to={"/orders"}> <i className='fa fa-shopping-bag'></i> My Orders</Link></li>
+
+
                                     <li><hr className="dropdown-divider" /></li>
                                     <li className="nav-item">
                                       <button className="nav-link btn btn-link" onClick={() => handleLogout(navigate)}> <i className='fa fa-sign-out-alt ms-2'></i> Logout</button>
