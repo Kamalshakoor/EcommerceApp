@@ -6,6 +6,7 @@ const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [address, setAddress]  = useState([]);
 
   const fetchCartAndProducts = async () => {
     try {
@@ -100,10 +101,39 @@ const Cart = () => {
     }
   };
 
+
+  // handle checkout function
+
+  const handleCheckout = async () => {
+    if (address.length === 0) {
+      toast.error("Please enter your address before checking out.");
+    } else {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/v1/orders",
+          {
+            address: address
+          },
+          { withCredentials: true }
+        );
+        if (response.status === 201) {
+          toast.success("Checkout successful!");
+          setCartProducts([]);
+          setAddress([]);
+        } else {
+          toast.error("Checkout failed!");
+        }
+      } catch (error) {
+        console.error("Error checking out:", error);
+        toast.error("Checkout failed!");
+      }
+    }
+  };
+
   return (
     <div className="container mt-5 mb-5">
       <div className="row">
-        <div className="col-md-12">
+        <div className="col-md-9">
           <div className="card">
             <div className="card-header text-center">
               <h3>Cart</h3>
@@ -165,33 +195,6 @@ const Cart = () => {
                         </td>
                       </tr>
                     ))}
-                    <tr>
-                      <td colSpan="3">
-                        <h5>Grand Total</h5>
-                      </td>
-                      <td>
-                        <h5>
-                          $
-                          {cartProducts
-                            .reduce(
-                              (sum, item) =>
-                                sum +
-                                item.product.attributes.price *
-                                  item.attributes.quantity,
-                              0
-                            )
-                            .toFixed(2)}
-                        </h5>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colSpan="3"></td>
-                      <td>
-                        <button className="btn btn-outline-success form-control">
-                          Checkout
-                        </button>
-                      </td>
-                    </tr>
                   </tbody>
                 </table>
               ) : (
@@ -206,6 +209,37 @@ const Cart = () => {
                   )}
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div className="card">
+            <div className="card-header text-center py-3">
+              <h3>Cart Summary</h3>
+            </div>
+            <div className="card-body">
+              <p className="d-flex justify-content-between">
+                <span className="text-success" style={{ fontSize: '1.5rem' }}>total:</span>
+                <span className="text-success" style={{ fontSize: '1.3rem' }}>
+                  $
+                  {cartProducts
+                    .reduce(
+                      (sum, item) =>
+                        sum +
+                        item.product.attributes.price * item.attributes.quantity,
+                      0
+                    )
+                    .toFixed(2)}
+                </span>
+              </p>
+              <input type="text" placeholder="address here ..." className="form-control mb-3" onChange={(e) => setAddress(e.target.value)} value={address} required />
+              <button
+                className={`btn ${cartProducts.length === 0 ? 'btn-muted' : 'btn-outline-success'} form-control`}
+                onClick={handleCheckout}
+                disabled={cartProducts.length === 0}
+              >
+                Checkout
+              </button>
             </div>
           </div>
         </div>

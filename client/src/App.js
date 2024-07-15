@@ -7,7 +7,7 @@ import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import Navbar from './components/Navbar/Navbar';
 import Shop from './components/Shop/Shop';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Footer from './components/footer/Footer';
 import Detail from './components/Shop/Detail';
@@ -15,6 +15,19 @@ import Cart from './components/Cart/Cart';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/v1/check_session', { withCredentials: true });
+        setIsAuthenticated(response.data.isAuthenticated);
+      } catch (error) {
+        console.error('Error checking authentication:', error);
+      }
+    };
+    checkAuth();
+  }, []);
+  
 
   const handleLogout = async (navigate) => {
     try {
