@@ -12,6 +12,7 @@ import axios from 'axios';
 import Footer from './components/footer/Footer';
 import Detail from './components/Shop/Detail';
 import Cart from './components/Cart/Cart';
+import MyOrders from './components/Orders/MyOrders';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -54,6 +55,7 @@ function App() {
           <Route path='/shop' element={<Shop />} />
           <Route path='/products/:id' element={<Detail isAuthenticated={isAuthenticated} />} />
           <Route path='/cart' element={<Cart isAuthenticated={isAuthenticated} />} />
+          <Route path='/orders' element={<MyOrders />} />
         </Routes>
         <Footer />
       </Router>
