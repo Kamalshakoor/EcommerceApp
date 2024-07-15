@@ -19,7 +19,13 @@ class Api::V1::AuthController < ApplicationController
     end
   end
 
-  
+  def check_session
+    if logged_in?
+      render json: { isAuthenticated: true, user: UserSerializer.new(current_user).serializable_hash.to_json }, status: :ok
+    else
+      render json: { isAuthenticated: false }, status: :ok
+    end
+  end
 
   def logout
     reset_session

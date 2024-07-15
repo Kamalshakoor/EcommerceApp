@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
         post 'register', to: 'auth#register'
         post 'login', to: 'auth#login'
+        get 'check_session', to: 'auth#check_session'
         delete 'logout', to: 'auth#logout'
         resources :categories
         resources :products
