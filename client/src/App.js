@@ -13,6 +13,10 @@ import Footer from './components/footer/Footer';
 import Detail from './components/Shop/Detail';
 import Cart from './components/Cart/Cart';
 import MyOrders from './components/Orders/MyOrders';
+import About from './components/AboutUs/About';
+import Contact from './components/ContactUs/Contact';
+
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -56,6 +60,8 @@ function App() {
           <Route path='/products/:id' element={<Detail isAuthenticated={isAuthenticated} />} />
           <Route path='/cart' element={<Cart isAuthenticated={isAuthenticated} />} />
           <Route path='/orders' element={<MyOrders />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/contact' element={<Contact />} />
         </Routes>
         <Footer />
       </Router>
