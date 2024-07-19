@@ -6,7 +6,11 @@ Rails.application.routes.draw do
         get 'check_session', to: 'auth#check_session'
         delete 'logout', to: 'auth#logout'
         resources :categories
-        resources :products
+        resources :products do
+          collection do
+            get 'search', to: 'products#search'
+          end
+        end        
         resources :line_items, only: [:index, :create, :destroy] do
           member do
             patch :increment

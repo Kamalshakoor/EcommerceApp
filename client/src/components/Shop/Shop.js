@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Circles } from 'react-loader-spinner';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -75,11 +75,11 @@ const Shop = () => {
               <div className="col-md-4" key={product.id}>
                 <div className="card mb-3">
                   <img
-                    src={product.image ? `https://talkshop-backend.onrender.com${product.attributes.image}` : 'https://via.placeholder.com/150'}
+                    src={product.image ? `https://talkshop-backend.onrender.com${product.attributes.image}` : 'https://via.placeholder.com/200'}
                     className="card-img-top"
                     alt={product.name}
                     onError={e => {
-                      e.target.src = 'https://via.placeholder.com/150';
+                      e.target.src = 'https://via.placeholder.com/200';
                     }}
                   />
                   <div className="card-body d-flex flex-column">

@@ -1,7 +1,7 @@
 class Api::V1::ProductsController < ApplicationController
   include AuthenticateUsers
   # skip_before_action :verify_authenticity_token
-  skip_before_action :authenticate_user, only: [:index, :show]
+  skip_before_action :authenticate_user, only: [:index, :show, :search]
   before_action :authenticate_admin, only: [:create, :update, :destroy]
   before_action :set_product, only: [:show, :update, :destroy]
 
@@ -28,6 +28,11 @@ class Api::V1::ProductsController < ApplicationController
   def destroy
     @product.destroy
     render json: ProductSerializer.new(@product).serializable_hash.to_json
+  end
+
+  def search
+    products = Product.where('name LIKE ?', "%#{params[:query]}%")
+    render json: ProductSerializer.new(products).serializable_hash.to_json
   end
 
   private
