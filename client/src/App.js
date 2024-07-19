@@ -15,6 +15,8 @@ import Cart from './components/Cart/Cart';
 import MyOrders from './components/Orders/MyOrders';
 import About from './components/AboutUs/About';
 import Contact from './components/ContactUs/Contact';
+import SearchResults from './components/SearchResults/SearchResults';
+
 
 
 
@@ -62,6 +64,7 @@ function App() {
           <Route path='/orders' element={<MyOrders />} />
           <Route path='/about' element={<About />} />
           <Route path='/contact' element={<Contact />} />
+          <Route path='/search' element={<SearchResults />} />
         </Routes>
         <Footer />
       </Router>
