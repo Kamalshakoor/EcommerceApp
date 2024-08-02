@@ -17,7 +17,7 @@ Rails.application.routes.draw do
             patch :decrement
           end
         end
-        resources :orders, only: [:index, :show, :create, :update] do
+        resources :orders, only: [:index, :show, :create, :update, :destroy] do
           resources :ratings, only: [:create]
         end
     end

@@ -1,7 +1,7 @@
 class Api::V1::OrdersController < ApplicationController
   # skip_before_action :verify_authenticity_token
   include AuthenticateUsers
-  before_action :set_order, only: [:show, :update]
+  before_action :set_order, only: [:show, :update, :destroy]
 
   def index
     orders = current_user.orders
@@ -39,12 +39,19 @@ class Api::V1::OrdersController < ApplicationController
   end
 
   def destroy
-    # Only allow destruction of orders that are pending
-    if @order.pending?
-      @order.destroy
-      render json: { message: 'Order Cancelled' }
-    else
-      render json: { error: "Order cannot be Cancelled as it is already in progress or completed." }, status: :unprocessable_entity
+    begin
+      Order.transaction do
+        # Rails.logger.debug "Deleting Order: #{@order.id} with LineItems: #{@order.line_items.pluck(:id)}"
+        @order.line_items.destroy_all
+        @order.destroy!
+      end
+      render json: { message: 'Order and associated line items deleted successfully' }, status: :ok
+    rescue ActiveRecord::InvalidForeignKey => e
+      # Rails.logger.error "Foreign Key Constraint Error: #{e.message}"
+      render json: { errors: 'Failed to delete order due to foreign key constraint.' }, status: :unprocessable_entity
+    rescue => e
+      # Rails.logger.error "Failed to delete order: #{e.message}"
+      render json: { errors: 'Failed to delete order. Please try again.' }, status: :unprocessable_entity
     end
   end
 
