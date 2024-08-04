@@ -17,8 +17,14 @@ Rails.application.routes.draw do
             patch :decrement
           end
         end
-        resources :orders, only: [:index, :show, :create, :update, :destroy] do
+        resources :orders, only: [:index, :show, :create,:update, :destroy] do
           resources :ratings, only: [:create]
+          collection do
+            get 'admin_index', to: 'orders#admin_index'
+          end
+          member do
+            delete 'admin_destroy', to: 'orders#admin_destroy'
+          end
         end
     end
   end
