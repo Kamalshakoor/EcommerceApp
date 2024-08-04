@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const MyOrders = () => {
+const AllOrders = () => {
   const [completed, setCompleted] = useState([]);
   const [pending, setPending] = useState([]);
   const [inProgress, setInProgress] = useState([]);
@@ -10,7 +10,7 @@ const MyOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const { data } = await axios.get("http://localhost:3000/api/v1/orders", {
+        const { data } = await axios.get("http://localhost:3000/api/v1/orders/admin_index", {
           withCredentials: true,
         });
         const orders = data.data;
@@ -38,7 +38,7 @@ const MyOrders = () => {
   const handleCancelOrder = async (id) => {
     try {
       const { data } = await axios.delete(
-        `http://localhost:3000/api/v1/orders/${id}`,
+        `http://localhost:3000/api/v1/orders/${id}/admin_destroy`,
         {
           withCredentials: true,
         }
@@ -60,7 +60,7 @@ const MyOrders = () => {
         <div className="col-md-8 offset-md-2">
           <div className="card mt-5 shadow p-3 mb-5 bg-white rounded">
             <div className="card-header">
-              <h3 className="card-title text-center">My Orders</h3>
+              <h3 className="card-title text-center">All Orders</h3>
             </div>
             <div className="card-body">
               <nav>
@@ -226,6 +226,6 @@ const MyOrders = () => {
       </div>
     </div>
   );
-};
+}
 
-export default MyOrders;
+export default AllOrders
