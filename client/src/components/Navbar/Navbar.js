@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-const Navbar = ({isAuthenticated, handleLogout}) => {
+const Navbar = ({isAuthenticated, handleLogout, isAdmin}) => {
 
   const navigate = useNavigate();
   return <>
@@ -39,7 +39,8 @@ const Navbar = ({isAuthenticated, handleLogout}) => {
                                 <>
                                     <li><Link className="dropdown-item" to={"/profile"}> <i className='fa fa-user'></i> My Profile</Link></li>
                                     <li><Link className="dropdown-item" to={"/orders"}> <i className='fa fa-shopping-bag'></i> My Orders</Link></li>
-
+                                    
+                                    {isAdmin && <li><Link className="dropdown-item" to={"/all-orders"}> <i className='fa fa-shopping-bag'></i> All Orders</Link></li>}
 
                                     <li><hr className="dropdown-divider" /></li>
                                     <li className="nav-item">

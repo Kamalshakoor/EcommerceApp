@@ -16,17 +16,20 @@ import MyOrders from './components/Orders/MyOrders';
 import About from './components/AboutUs/About';
 import Contact from './components/ContactUs/Contact';
 import SearchResults from './components/SearchResults/SearchResults';
+import AllOrders from './components/Orders/AllOrders';
 
 
 
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const response = await axios.get('http://localhost:3000/api/v1/check_session', { withCredentials: true });
+        // console.log(response.data);
         setIsAuthenticated(response.data.isAuthenticated);
       } catch (error) {
         console.error('Error checking authentication:', error);
@@ -52,12 +55,12 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Navbar isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
+        <Navbar isAuthenticated={isAuthenticated} handleLogout={handleLogout} isAdmin={isAdmin} />
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} setIsAdmin = {setIsAdmin} />} />
           <Route path='/shop' element={<Shop />} />
           <Route path='/products/:id' element={<Detail isAuthenticated={isAuthenticated} />} />
           <Route path='/cart' element={<Cart isAuthenticated={isAuthenticated} />} />
@@ -65,6 +68,7 @@ function App() {
           <Route path='/about' element={<About />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/search' element={<SearchResults />} />
+          <Route path='/all-orders' element={<AllOrders />} />
         </Routes>
         <Footer />
       </Router>

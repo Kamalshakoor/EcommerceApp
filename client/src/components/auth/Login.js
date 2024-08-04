@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const Login = ({ setIsAuthenticated }) => {
+const Login = ({ setIsAuthenticated, setIsAdmin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -24,6 +24,9 @@ const Login = ({ setIsAuthenticated }) => {
       // console.log('Login response data:', data);
       
       setIsAuthenticated(true); 
+      // console.log(data.data.attributes.role)
+      setIsAdmin(data.data.attributes.role === 'admin');  // Conditionally setisAdmin based on user's role
+      // console.log(setIsAdmin)
       toast.success('Login successful');
       navigate('/'); 
     } catch (error) {
