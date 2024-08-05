@@ -79,6 +79,11 @@ class Api::V1::OrdersController < ApplicationController
     end
   end
 
+  def status_change
+    @order = Order.find(params[:id])
+    @order.update(status: params[:status])
+    render json: OrderSerializer.new(@order).serializable_hash.to_json
+  end
 
   private
 
