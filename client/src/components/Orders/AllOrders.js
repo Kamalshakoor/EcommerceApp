@@ -54,6 +54,41 @@ const AllOrders = () => {
     }
   };
 
+  const handleStatusChange = async (id, status) => {
+    try {
+      const { data } = await axios.patch(
+        `http://localhost:3000/api/v1/orders/${id}/status_change`,
+        { status },
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success("Order Status Updated successfully");
+      console.log(data);
+  
+      // Find the order that was updated
+      const updatedOrder = data.data;
+  
+      // Remove the order from the previous status list
+      setPending(prevPending => prevPending.filter(order => order.id !== id));
+      setInProgress(prevInProgress => prevInProgress.filter(order => order.id !== id));
+      setCompleted(prevCompleted => prevCompleted.filter(order => order.id !== id));
+  
+      // Add the order to the new status list
+      if (updatedOrder.attributes.status === 'pending') {
+        setPending(prevPending => [...prevPending, updatedOrder]);
+      } else if (updatedOrder.attributes.status === 'in_progress') {
+        setInProgress(prevInProgress => [...prevInProgress, updatedOrder]);
+      } else if (updatedOrder.attributes.status === 'completed') {
+        setCompleted(prevCompleted => [...prevCompleted, updatedOrder]);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to update order status.");
+    }
+  };
+  
+
   return (
     <div className="container">
       <div className="row">
@@ -125,7 +160,19 @@ const AllOrders = () => {
                           <tr key={order.id}>
                             <td>{order.id}</td>
                             <td>${order.attributes.price}</td>
-                            <td>{order.attributes.status}</td>
+                            <td>
+                              <select
+                                className="form-select"
+                                value={order.attributes.status}
+                                onChange={(e) =>
+                                  handleStatusChange(order.id,e.target.value)
+                                }
+                              >
+                                <option value="pending">Pending</option>
+                                <option value="in_progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                              </select>
+                            </td>
                             <td className="text-center">
                               <button
                                 type="button"
@@ -166,7 +213,19 @@ const AllOrders = () => {
                           <tr key={order.id}>
                             <td>{order.id}</td>
                             <td>${order.attributes.price}</td>
-                            <td>{order.attributes.status}</td>
+                            <td>
+                              <select
+                                className="form-select"
+                                value={order.attributes.status}
+                                onChange={(e) =>
+                                  handleStatusChange(order.id,e.target.value )
+                                }
+                              >
+                                <option value="pending">Pending</option>
+                                <option value="in_progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                              </select>
+                            </td>
                             <td className="text-center">
                               <button type="button" className="btn btn-outline-warning">
                                 See Detail

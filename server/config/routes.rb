@@ -24,6 +24,7 @@ Rails.application.routes.draw do
           end
           member do
             delete 'admin_destroy', to: 'orders#admin_destroy'
+             patch 'status_change', to: 'orders#status_change'
           end
         end
     end
